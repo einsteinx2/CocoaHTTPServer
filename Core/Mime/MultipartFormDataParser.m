@@ -84,7 +84,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 
 	// don't parse data unless its size is greater then boundary length, so we couldn't
 	// misfind the boundary, if it got split into different data chunks
-	int sizeToLeavePending = boundaryData.length;
+	int sizeToLeavePending = (int)boundaryData.length;
 
 	if( !reachedEpilogue && workingData.length <= sizeToLeavePending )  {
 		// not enough data even to start parsing.
@@ -239,7 +239,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 			// this case, we didn't find the boundary, so the data is related to the current part.
 			// we leave the sizeToLeavePending amount of bytes to make sure we don't include 
 			// boundary part in processed data.
-			int sizeToPass = workingData.length - offset - sizeToLeavePending;
+			int sizeToPass = (int)(workingData.length - offset - sizeToLeavePending);
 
 			// if we parse BASE64 encoded data, or Quoted-Printable data, we will make sure we don't break the format
 			int leaveTrailing = [self numberOfBytesToLeavePendingWithData:data length:sizeToPass encoding:currentEncoding];
@@ -280,7 +280,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 			currentHeader = nil;
 
 			// set up offset to continue with the remaining data (if any)
-			offset = contentEnd + boundaryData.length;
+			offset = (int)(contentEnd + boundaryData.length);
 			checkForContentEnd = YES;
 			// setting the flag tells the parser to skip all the data till CRLF
 		}
@@ -294,7 +294,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 
 - (int) offsetTillNewlineSinceOffset:(int) offset inData:(NSData*) data {
 	char* bytes = (char*) data.bytes;
-	int length = data.length;
+	int length = (int)data.length;
 	if( offset >= length - 1 ) 
 		return -1;
 
@@ -327,8 +327,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 	
 	char* boundaryBytes = (char*) boundaryData.bytes + 2; // the first boundary won't have CRLF preceding.
     char* dataBytes = (char*) data.bytes;
-    int boundaryLength = boundaryData.length - 2;
-    int dataLength = data.length;
+    int boundaryLength = (int)(boundaryData.length - 2);
+    int dataLength = (int)data.length;
     
 	// find the boundary without leading CRLF.
     while( offset < dataLength - boundaryLength +1 ) {
@@ -373,7 +373,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 
 - (int) findHeaderEnd:(NSData*) workingData fromOffset:(int)offset {
     char* bytes = (char*) workingData.bytes; 
-    int inputLength = workingData.length;
+    int inputLength = (int)workingData.length;
     uint16_t separatorBytes = 0x0A0D;
 
 	while( true ) {
@@ -393,8 +393,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 - (int) findContentEnd:(NSData*) data fromOffset:(int) offset {
     char* boundaryBytes = (char*) boundaryData.bytes;
     char* dataBytes = (char*) data.bytes;
-    int boundaryLength = boundaryData.length;
-    int dataLength = data.length;
+    int boundaryLength = (int)boundaryData.length;
+    int dataLength = (int)data.length;
     
     while( offset < dataLength - boundaryLength +1 ) {
         int i;
@@ -475,7 +475,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 	NSMutableData* result = [[NSMutableData alloc] initWithLength:data.length];
 	const char* bytes = (const char*) data.bytes;
 	int count = 0;
-	int length = data.length;
+	int length = (int)data.length;
 	while( count < length ) {
 		if( bytes[count] == '=' ) {
 			[result appendBytes:bytes length:count];
