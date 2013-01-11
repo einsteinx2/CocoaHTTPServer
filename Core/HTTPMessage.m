@@ -20,10 +20,14 @@
 {
 	if ((self = [super init]))
 	{
-		message = CFHTTPMessageCreateRequest(NULL,
-		                                    (__bridge CFStringRef)method,
-		                                    (__bridge CFURLRef)url,
-		                                    (__bridge CFStringRef)version);
+        // Make sure the URL is not nil, or we will have a strange looking SIGTRAP crash with a misleading stack trace
+        if (url)
+        {
+            message = CFHTTPMessageCreateRequest(NULL,
+                                                 (__bridge CFStringRef)method,
+                                                 (__bridge CFURLRef)url,
+                                                 (__bridge CFStringRef)version);
+        }
 	}
 	return self;
 }
