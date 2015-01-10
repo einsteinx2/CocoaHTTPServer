@@ -8,6 +8,9 @@
 //  https://github.com/robbiehanson/CocoaAsyncSocket
 //
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 #if ! __has_feature(objc_arc)
 #warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 // For more information see: https://github.com/robbiehanson/CocoaAsyncSocket/wiki/ARC
@@ -7215,4 +7218,6 @@ static void CFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType ty
 	return [NSData dataWithBytes:"" length:1];
 }
 
-@end	
+@end
+
+#pragma clang diagnostic pop

@@ -576,9 +576,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_INFO; // | HTTP_LOG_FLAG_TRACE;
 - (void)publishBonjour
 {
 	HTTPLogTrace();
-	
-	NSAssert(dispatch_get_current_queue() == serverQueue, @"Invalid queue");
-	
+		
 	if (type)
 	{
 		netService = [[NSNetService alloc] initWithDomain:domain type:type name:name port:[asyncSocket localPort]];
@@ -611,9 +609,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_INFO; // | HTTP_LOG_FLAG_TRACE;
 - (void)unpublishBonjour
 {
 	HTTPLogTrace();
-	
-	NSAssert(dispatch_get_current_queue() == serverQueue, @"Invalid queue");
-	
+		
 	if (netService)
 	{
 		NSNetService *theNetService = netService;
