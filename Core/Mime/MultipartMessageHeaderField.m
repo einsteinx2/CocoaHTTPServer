@@ -8,7 +8,8 @@
 #ifdef DEBUG
 static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 #else
-static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
+//static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
+#define httpLogLevel HTTP_LOG_LEVEL_WARN
 #endif
 
 
@@ -80,9 +81,8 @@ NSString* extractParamValue(const char* bytes, int length, NSStringEncoding enco
 
 	// parse the "params" part of the header
 	if( ![self parseHeaderValueBytes:bytes length:length encoding:encoding] ) {
-		NSString* paramsStr = [[NSString alloc] initWithBytes:bytes length:length encoding:NSASCIIStringEncoding];
 		HTTPLogError(@"MultipartFormDataParser: Bad params for header with name '%@' and value '%@'",name,value);
-		HTTPLogError(@"MultipartFormDataParser: Params str: %@",paramsStr);
+		HTTPLogError(@"MultipartFormDataParser: Params str: %@",[[NSString alloc] initWithBytes:bytes length:length encoding:NSASCIIStringEncoding]);
 
 		return nil;		
 	}

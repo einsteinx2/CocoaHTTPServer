@@ -9,7 +9,8 @@
 #ifdef DEBUG
 static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 #else
-static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
+//static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
+#define httpLogLevel HTTP_LOG_LEVEL_WARN
 #endif
 
 

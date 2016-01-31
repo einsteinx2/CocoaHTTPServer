@@ -30,12 +30,12 @@
  * Define your logging level in your implementation file:
  * 
  * // Log levels: off, error, warn, info, verbose
- * static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE;
+ * static const int httpLogLevel = HTTP_DDLogLevelVerbose;
  * 
  * If you wish to enable tracing, you could do something like this:
  * 
  * // Debug levels: off, error, warn, info, verbose
- * static const int httpLogLevel = HTTP_LOG_LEVEL_INFO | HTTP_LOG_FLAG_TRACE;
+ * static const int httpLogLevel = HTTP_DDLogLevelInfo | HTTP_LOG_FLAG_TRACE;
  * 
  * Step 3:
  * Replace your NSLog statements with HTTPLog statements according to the severity of the message.
@@ -64,8 +64,8 @@
 #define HTTP_LOG_LEVEL_OFF     0                                              // 0...00000
 #define HTTP_LOG_LEVEL_ERROR   (HTTP_LOG_LEVEL_OFF   | HTTP_LOG_FLAG_ERROR)   // 0...00001
 #define HTTP_LOG_LEVEL_WARN    (HTTP_LOG_LEVEL_ERROR | HTTP_LOG_FLAG_WARN)    // 0...00011
-#define HTTP_LOG_LEVEL_INFO    (HTTP_LOG_LEVEL_WARN  | HTTP_LOG_FLAG_INFO)    // 0...00111
-#define HTTP_LOG_LEVEL_VERBOSE (HTTP_LOG_LEVEL_INFO  | HTTP_LOG_FLAG_VERBOSE) // 0...01111
+#define HTTP_DDLogLevelInfo    (HTTP_LOG_LEVEL_WARN  | HTTP_LOG_FLAG_INFO)    // 0...00111
+#define HTTP_DDLogLevelVerbose (HTTP_DDLogLevelInfo  | HTTP_LOG_FLAG_VERBOSE) // 0...01111
 
 // Setup fine grained logging.
 // The first 4 bits are being used by the standard log levels (0 - 3)
@@ -95,8 +95,40 @@
 #define HTTP_LOG_ASYNC_VERBOSE (YES && HTTP_LOG_ASYNC_ENABLED)
 #define HTTP_LOG_ASYNC_TRACE   (YES && HTTP_LOG_ASYNC_ENABLED)
 
+// Old DDLog macros that don't exist anymore
+#define LOG_C_MAYBE(async, lvl, flg, ctx, frmt, ...) LOG_MAYBE(async, lvl, flg, ctx, FUNCTION, frmt, ##VA_ARGS)
+#define LOG_OBJC_MAYBE(async, lvl, flg, ctx, frmt, ...) LOG_MAYBE(async, lvl, flg, ctx, __PRETTY_FUNCTION__, frmt, ## __VA_ARGS__)
+
 // Define logging primitives.
 
+#if 1
+#define HTTPLogError(frmt, ...)
+
+#define HTTPLogWarn(frmt, ...)
+
+#define HTTPLogInfo(frmt, ...)
+
+#define HTTPLogVerbose(frmt, ...)
+
+#define HTTPLogTrace()
+
+#define HTTPLogTrace2(frmt, ...)
+
+
+#define HTTPLogCError(frmt, ...)
+
+#define HTTPLogCWarn(frmt, ...)
+
+#define HTTPLogCInfo(frmt, ...)
+
+#define HTTPLogCVerbose(frmt, ...)
+
+#define HTTPLogCTrace()
+
+#define HTTPLogCTrace2(frmt, ...)
+
+#else
+// TODO: Re-enable logging after fixing the build issues
 #define HTTPLogError(frmt, ...)    LOG_OBJC_MAYBE(HTTP_LOG_ASYNC_ERROR,   httpLogLevel, HTTP_LOG_FLAG_ERROR,  \
                                                   HTTP_LOG_CONTEXT, frmt, ##__VA_ARGS__)
 
@@ -133,4 +165,4 @@
 
 #define HTTPLogCTrace2(frmt, ...)     LOG_C_MAYBE(HTTP_LOG_ASYNC_TRACE,   httpLogLevel, HTTP_LOG_FLAG_TRACE, \
                                                   HTTP_LOG_CONTEXT, frmt, ##__VA_ARGS__)
-
+#endif

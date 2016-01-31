@@ -16,7 +16,8 @@
 #ifdef DEBUG
 static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 #else
-static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
+//static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
+#define httpLogLevel HTTP_LOG_LEVEL_WARN
 #endif
 
 //-----------------------------------------------------------------
@@ -55,8 +56,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN;
 				HTTPLogVerbose(@"MultipartFormDataParser: Processed Header field '%@'",field.name);
 			}
 			else {
-				NSString* fieldStr = [[NSString  alloc] initWithData:fieldData encoding:NSASCIIStringEncoding];
-				HTTPLogWarn(@"MultipartFormDataParser: Failed to parse MIME header field. Input ASCII string:%@",fieldStr);
+				HTTPLogWarn(@"MultipartFormDataParser: Failed to parse MIME header field. Input ASCII string:%@",[[NSString  alloc] initWithData:fieldData encoding:NSASCIIStringEncoding]);
 			}
 
 			// move to the next header field

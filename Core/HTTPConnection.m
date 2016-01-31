@@ -919,11 +919,8 @@ static NSMutableArray *recentNonces;
 	HTTPLogTrace();
 	
 	if (HTTP_LOG_VERBOSE)
-	{
-		NSData *tempData = [request messageData];
-		
-		NSString *tempStr = [[NSString alloc] initWithData:tempData encoding:NSUTF8StringEncoding];
-		HTTPLogVerbose(@"%@[%p]: Received HTTP request:\n%@", THIS_FILE, self, tempStr);
+	{		
+		HTTPLogVerbose(@"%@[%p]: Received HTTP request:\n%@", THIS_FILE, self, [[NSString alloc] initWithData:[request messageData] encoding:NSUTF8StringEncoding]);
 	}
 	
 	// Check the HTTP version

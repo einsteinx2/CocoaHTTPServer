@@ -193,10 +193,7 @@ static inline NSUInteger WS_PAYLOAD_LENGTH(UInt8 frame)
 	{
 		if (HTTP_LOG_VERBOSE)
 		{
-			NSData *requestHeaders = [aRequest messageData];
-			
-			NSString *temp = [[NSString alloc] initWithData:requestHeaders encoding:NSUTF8StringEncoding];
-			HTTPLogVerbose(@"%@[%p] Request Headers:\n%@", THIS_FILE, self, temp);
+			HTTPLogVerbose(@"%@[%p] Request Headers:\n%@", THIS_FILE, self, [[NSString alloc] initWithData:[aRequest messageData] encoding:NSUTF8StringEncoding]);
 		}
 		
 		websocketQueue = dispatch_queue_create("WebSocket", NULL);
@@ -436,8 +433,7 @@ static inline NSUInteger WS_PAYLOAD_LENGTH(UInt8 frame)
 	
 	if (HTTP_LOG_VERBOSE)
 	{
-		NSString *temp = [[NSString alloc] initWithData:responseHeaders encoding:NSUTF8StringEncoding];
-		HTTPLogVerbose(@"%@[%p] Response Headers:\n%@", THIS_FILE, self, temp);
+		HTTPLogVerbose(@"%@[%p] Response Headers:\n%@", THIS_FILE, self, [[NSString alloc] initWithData:responseHeaders encoding:NSUTF8StringEncoding]);
 	}
 	
 	[asyncSocket writeData:responseHeaders withTimeout:TIMEOUT_NONE tag:TAG_HTTP_RESPONSE_HEADERS];
@@ -517,20 +513,12 @@ static inline NSUInteger WS_PAYLOAD_LENGTH(UInt8 frame)
 	[asyncSocket writeData:responseBody withTimeout:TIMEOUT_NONE tag:TAG_HTTP_RESPONSE_BODY];
 	
 	if (HTTP_LOG_VERBOSE)
-	{
-		NSString *s1 = [[NSString alloc] initWithData:d1 encoding:NSASCIIStringEncoding];
-		NSString *s2 = [[NSString alloc] initWithData:d2 encoding:NSASCIIStringEncoding];
-		NSString *s3 = [[NSString alloc] initWithData:d3 encoding:NSASCIIStringEncoding];
-		
-		NSString *s0 = [[NSString alloc] initWithData:d0 encoding:NSASCIIStringEncoding];
-		
-		NSString *sH = [[NSString alloc] initWithData:responseBody encoding:NSASCIIStringEncoding];
-		
-		HTTPLogVerbose(@"key1 result : raw(%@) str(%@)", d1, s1);
-		HTTPLogVerbose(@"key2 result : raw(%@) str(%@)", d2, s2);
-		HTTPLogVerbose(@"key3 passed : raw(%@) str(%@)", d3, s3);
-		HTTPLogVerbose(@"key0 concat : raw(%@) str(%@)", d0, s0);
-		HTTPLogVerbose(@"responseBody: raw(%@) str(%@)", responseBody, sH);
+	{		
+		HTTPLogVerbose(@"key1 result : raw(%@) str(%@)", d1, [[NSString alloc] initWithData:d1 encoding:NSASCIIStringEncoding]);
+		HTTPLogVerbose(@"key2 result : raw(%@) str(%@)", d2, [[NSString alloc] initWithData:d2 encoding:NSASCIIStringEncoding]);
+		HTTPLogVerbose(@"key3 passed : raw(%@) str(%@)", d3, [[NSString alloc] initWithData:d3 encoding:NSASCIIStringEncoding]);
+		HTTPLogVerbose(@"key0 concat : raw(%@) str(%@)", d0, [[NSString alloc] initWithData:d0 encoding:NSASCIIStringEncoding]);
+		HTTPLogVerbose(@"responseBody: raw(%@) str(%@)", responseBody, [[NSString alloc] initWithData:responseBody encoding:NSASCIIStringEncoding]);
 		
 	}
 }
